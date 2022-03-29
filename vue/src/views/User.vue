@@ -1,14 +1,20 @@
 <template>
   <div class="setting">
-    <!-- 功能区域 -->
-    <div style="margin: 10px 0">
-      <el-button type="primary" @click="add">新增</el-button>
-    </div>
 
-    <!-- 搜索区域 -->
-    <div style="margin: 10px 0">
-      <el-input v-model="search" placeholder="请输入关键字" style="width: 20%" clearable/>
-      <el-button type="primary" style="margin-left: 10px" @click="load">查询</el-button>
+    <div style="margin: 15px auto 15px auto;">
+      <!-- 新增按钮 -->
+      <el-button type="primary" @click="add">
+        <el-icon><plus /></el-icon>&nbsp;
+        新增
+      </el-button>
+      <!-- 搜索区域 -->
+      <el-input v-model="search" placeholder="请输入关键字" style="width: 20%;margin-left: 10px" clearable/>
+      <el-button type="primary" style="margin-left: 10px" @click="load">
+        <el-icon><search /></el-icon>&nbsp;
+        查询
+      </el-button>
+      <!-- 重置按钮 -->
+      <el-button type="primary" @click="reset">重置</el-button>
     </div>
 
     <!-- 数据展示区域 -->
@@ -19,6 +25,7 @@
         <el-table-column prop="uname" label="用户名" />
         <el-table-column prop="upassword" label="密码" />
         <el-table-column prop="usaying" label="名言" />
+        <el-table-column prop="usuper" label="管理员" />
         <!-- 表格功能 -->
         <el-table-column fixed="right" label="操作" width="200px">
           <template #default="scope">
@@ -36,7 +43,7 @@
     </div>
 
     <!-- 分页区域 -->
-    <div style="margin: 10px 0">
+    <div style="margin: 15px 0">
       <el-pagination
           v-model:currentPage="currentPage"
           :page-sizes="[5, 10, 20]"
@@ -66,6 +73,9 @@
           >
           </el-input>
         </el-form-item>
+        <el-form-item label="管理员">
+          <el-input v-model="form.usuper" style="width: 80%"></el-input>
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -79,8 +89,13 @@
 
 <script>
 import request from "@/utils/request";
+import { Plus,Search } from '@element-plus/icons'
 export default {
   name: "User",
+  components: {
+    Plus,
+    Search
+  },
   data() {
     return {
       form: {},
@@ -106,9 +121,9 @@ export default {
           search: this.search
         }
       }).then(res => {
-        console.log(res)
         this.tableData = res.data.records
         this.total = res.data.total
+        console.log(this.tableData)
       })
     },
     add() {
@@ -163,7 +178,7 @@ export default {
       this.dialogVisible = true
     },
     handleDelete(uid) {
-      console.log(uid)
+      // console.log(uid)
       request.delete("/userinfo/" + uid).then(res => {
         if (res.code === '0') {
           this.$message({
@@ -187,6 +202,10 @@ export default {
     handleCurrentChange(pageNum) { //改变当前页码触发
       this.currentPage = pageNum
       this.load()
+    },
+    reset() {
+      this.search = '';
+      this.load();
     }
   }
 }
@@ -198,6 +217,6 @@ export default {
   height: 670px;
 }
 .setting-table {
-  width: 800px;
+  width: 900px;
 }
 </style>

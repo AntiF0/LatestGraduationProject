@@ -16,10 +16,12 @@ request.interceptors.request.use(config => {
     // config.headers['token'] = user.token;  // 设置请求头
 
     // 取出sessionStorage里面缓存的用户信息
-    const userJson = sessionStorage.getItem("userinfo")
-    if (!userJson) {
+    const userinfoJson = sessionStorage.getItem("userinfo")
+    if (!userinfoJson) {
         // 此时即表示没有登录,强制登录即可
-        router.push("/login")
+        router.push("/login").then(r => {
+            console.log("需要先登录!")
+        })
     }
 
     return config

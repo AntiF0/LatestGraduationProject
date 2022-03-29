@@ -18,9 +18,19 @@ const routes = [
         component: () => import("@/views/User")
       },
       {
-        path: 'cardtest',
-        name: 'Cardtest',
-        component: () => import("@/views/CardTest")
+        path: 'daily-record',
+        name: 'Daily-record',
+        component: () => import("@/views/Daily-record")
+      },
+      {
+        path: 'data-analysis',
+        name: 'Data-analysis',
+        component: () => import("@/views/Data-analysis")
+      },
+      {
+        path: 'setting',
+        name: 'Setting',
+        component: () => import("@/views/Setting")
       }
     ]
   },
@@ -28,6 +38,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import("@/views/Login")
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import("@/views/Register")
   }
 ]
 

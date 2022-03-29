@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-menu class="all-menu" default-active="task" router>
+    <el-menu class="all-menu" router>
 
       <el-menu-item index="task">
         <el-icon><message-box /></el-icon>
@@ -22,19 +22,9 @@
         <template #title>用户设置</template>
       </el-menu-item>
 
-      <el-menu-item index="time">
-        <el-icon><clock /></el-icon>
-        <template #title>专注模块</template>
-      </el-menu-item>
-
-      <el-menu-item index="user">
+      <el-menu-item index="user" v-show="isSuper">
         <el-icon><user /></el-icon>
         <template #title>用户管理</template>
-      </el-menu-item>
-
-      <el-menu-item index="cardtest">
-        <el-icon><clock /></el-icon>
-        <template #title>卡片测试</template>
       </el-menu-item>
 
     </el-menu>
@@ -54,6 +44,25 @@ export default {
     Setting,
     Notebook,
     Clock
+  },
+  data() {
+    return {
+      isSuper: false,
+      userinfo: []
+    }
+  },
+  created() {
+    this.load()
+  },
+  methods: {
+    load() {
+      // 读取session用户信息中的usuper属性,如果为1,表示为管理员,可以查看更多的界面
+      this.userinfo = JSON.parse(window.sessionStorage.getItem('userinfo'));
+      if (this.userinfo.usuper === 1)
+      {
+        this.isSuper = true;
+      }
+    }
   }
 }
 </script>

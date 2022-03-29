@@ -26,4 +26,19 @@ html {
   margin: auto;
   box-shadow: 10px 10px 5px #888888; /* 分别表示水平阴影的位置,垂直阴影的位置,模糊距离和阴影的颜色 */
 }
+/* 修改wangeditor层级 */
+/* 工具栏 */
+.w-e-menu {
+  z-index: auto !important;
+}
+.w-e-droplist {
+  z-index: 2 !important;
+}
+.w-e-toolbar {
+  z-index: 2 !important;
+  flex-wrap: wrap;
+}
+.w-e-text-container {
+  z-index: 1 !important;
+}
 </style>

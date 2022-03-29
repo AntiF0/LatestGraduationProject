@@ -13,4 +13,7 @@ public class UserInfo {
     private String uName;
     private String uPassword;
     private String uSaying;
+    private Integer uSuper;
+    private Integer uFocusedNum;
+    private Integer uFocusedTime;
 }

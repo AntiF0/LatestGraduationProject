@@ -6,5 +6,7 @@ import store from './store'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import Vue3Autocounter from 'vue3-autocounter';
+import Countdown from 'vue3-flip-countdown'
 
-createApp(App).use(store).use(router).use(ElementPlus, { locale: zhCn}).mount('#app')
+createApp(App).use(store).use(router).use(Countdown).use(ElementPlus, { locale: zhCn}).component('vue3-autocounter', Vue3Autocounter).mount('#app')

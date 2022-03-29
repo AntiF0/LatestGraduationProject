@@ -5,7 +5,7 @@
       <div class="login-text">欢迎登录</div>
 
       <el-form ref="form" :model="form" :rules="rules" class="login-form">
-<!--        输入用户名-->
+        <!-- 输入用户名-->
         <el-form-item prop="uname">
           <el-input v-model="form.uname">
             <template #prefix>
@@ -13,7 +13,7 @@
             </template>
           </el-input>
         </el-form-item>
-<!--        输入密码-->
+        <!-- 输入密码-->
         <el-form-item prop="upassword">
           <el-input v-model="form.upassword" show-password>
             <template #prefix>
@@ -21,9 +21,13 @@
             </template>
           </el-input>
         </el-form-item>
-<!--        登录按钮-->
+        <!-- 登录按钮 -->
         <el-form-item>
           <el-button style="width: 100%; font-size: 20px;" type="primary" @click="login">登 录</el-button>
+        </el-form-item>
+        <!-- 注册按钮 -->
+        <el-form-item>
+          <el-button style="width: 100%; font-size: 20px;" type="primary" @click="goToRegister">注 册</el-button>
         </el-form-item>
       </el-form>
 
@@ -41,10 +45,10 @@ export default {
     return {
       form: {},
       rules: {
-        username: [
+        uname: [
           { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
-        password: [
+        upassword: [
           { required: true, message: '请输入密码', trigger: 'blur' }
         ]
       }
@@ -77,6 +81,9 @@ export default {
           })
         }
       })
+    },
+    goToRegister() {
+      this.$router.push("/register");
     }
   }
 }
@@ -90,7 +97,7 @@ export default {
 }
 .login-all {
   width: 400px;
-  margin: 250px auto;
+  margin: 200px auto;
 }
 .login-text {
   color: black;

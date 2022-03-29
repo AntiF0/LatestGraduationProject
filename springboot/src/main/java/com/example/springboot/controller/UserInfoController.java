@@ -29,6 +29,24 @@ public class UserInfoController {
         return Result.success(res);
     }
 
+    //注册
+    //不能有重复的用户名
+    @PostMapping("/register")
+    public Result<?> register(@RequestBody UserInfo userInfo) {
+        UserInfo res = userInfoMapper.selectOne(Wrappers.<UserInfo>lambdaQuery().eq(UserInfo::getUName, userInfo.getUName()));
+        // 如果用户名重复了,失败
+        if (res != null) {
+            return Result.error("-1", "用户名重复");
+        }
+        // 如果密码未设置,自动添加密码:123456
+        if (userInfo.getUPassword() == null) {
+            userInfo.setUPassword("123456");
+        }
+        // 用户名不重复,添加数据
+        userInfoMapper.insert(userInfo);
+        return Result.success();
+    }
+
     // 新增数据
     @PostMapping
     public Result<?> save(@RequestBody UserInfo userInfo) {
@@ -62,7 +80,10 @@ public class UserInfoController {
                               @RequestParam(defaultValue = "") String search) {
         LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
         if (StrUtil.isNotBlank(search)) {
-            wrapper.like(UserInfo::getUId, search);
+            wrapper.like(UserInfo::getUId, search).or().
+                    like(UserInfo::getUName, search).or().
+                    like(UserInfo::getUPassword, search).or().
+                    like(UserInfo::getUSaying, search);
         }
         Page<UserInfo> userInfoPage = userInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
         return Result.success(userInfoPage);
