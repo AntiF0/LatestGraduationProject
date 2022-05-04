@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 1020px;height: 670px">
+  <div style="width: 1020px;height: 670px;position: relative;text-align: center">
 
     <!-- 上方功能区域 -->
     <div style="padding: 20px 20px 0 0;">
@@ -7,30 +7,30 @@
       <el-button type="primary" @click="isShowAdd=true;form={}" v-show="isShowAddButton" style="height: 40px;margin-left: 20px">新增</el-button>
       <!-- 搜索 -->
       <!--输入框-->
-      <el-input size="large" v-model="search1" clearable style="width: 30%;margin-left: 20px" v-show="showUnFinishedUnDeleted">
+      <el-input size="large" v-model="search1" clearable style="width: 30%;margin-left: 20px" v-show="showUnFinishedUnDeleted" @input="selectLoad">
         <!--搜索icon 3行-->
         <template #prefix>
           <el-icon class="el-input__icon"><search /></el-icon>
         </template>
       </el-input>
-      <el-input size="large" v-model="search2" clearable style="width: 30%;margin-left: 20px" v-show="showFinished">
+      <el-input size="large" v-model="search2" clearable style="width: 30%;margin-left: 20px" v-show="showFinished" @input="selectLoad">
         <!--搜索icon 3行-->
         <template #prefix>
           <el-icon class="el-input__icon"><search /></el-icon>
         </template>
       </el-input>
-      <el-input size="large" v-model="search3" clearable style="width: 30%;margin-left: 20px" v-show="showDeleted">
+      <el-input size="large" v-model="search3" clearable style="width: 30%;margin-left: 20px" v-show="showDeleted" @input="selectLoad">
         <!--搜索icon 3行-->
         <template #prefix>
           <el-icon class="el-input__icon"><search /></el-icon>
         </template>
       </el-input>
-      <!--搜索按钮-->
-      <el-button type="primary" @click="selectLoad" style="height: 40px;margin: 0 0 0 20px;">搜索</el-button>
-      <!-- 重置按钮 -->
-      <el-button type="primary" @click="reset" style="height: 40px;margin: 0 40px 0 20px;">重置</el-button>
+<!--      &lt;!&ndash;搜索按钮&ndash;&gt;-->
+<!--      <el-button type="primary" @click="selectLoad" style="height: 40px;margin: 0 0 0 20px;">搜索</el-button>-->
+<!--      &lt;!&ndash; 重置按钮 &ndash;&gt;-->
+<!--      <el-button type="primary" @click="reset" style="height: 40px;margin: 0 10px 0 20px;">重置</el-button>-->
       <!-- 筛选框 点击显示未完成未删除/已删除/已完成的任务-->
-      <el-radio v-focus v-model="radioSelect" label="1" @click="showAllTask">全部任务</el-radio>
+      <el-radio v-focus v-model="radioSelect" label="1" @click="showAllTask" style="margin-left: 20px">全部任务</el-radio>
       <el-radio v-model="radioSelect" label="2" @click="showFinishedTask">已完成任务</el-radio>
       <el-radio v-model="radioSelect" label="3" @click="showDeletedTask">已删除任务</el-radio>
     </div>
@@ -49,8 +49,8 @@
                 </div>
               </template>
               <!-- 展示任务细节 -->
-              <div >
-                <a style="font-weight:normal;width: 60px;line-height: 32px"> {{ item.ttaskMode }} </a>
+              <div style="text-align: left;">
+                <a style="font-weight:normal;width: 60px;line-height: 32px;"> {{ item.ttaskMode }} </a>
                 <el-button type="primary" style="float: right" @click="handleEdit(item)">任务详情</el-button>
               </div>
             </el-card>
@@ -58,15 +58,16 @@
         </el-row>
       </div>
       <!-- 分页区域 1 -->
-      <div style="margin: 20px;text-align: center;width: 1020px">
+      <div style="margin: 20px;text-align: center;width: 980px;">
         <el-pagination
             v-model:currentPage="currentPage1"
             v-model:page-size="pageSize1"
             :page-sizes="[3, 6, 9]"
-            layout="total, sizes, prev, pager, next, jumper"
+            layout="total, prev, pager, next, jumper"
             :total="total1"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
+            style="position: absolute;left: 50%;transform: translate(-50%)"
         >
         </el-pagination>
       </div>
@@ -86,7 +87,7 @@
                 </div>
               </template>
               <!-- 展示任务细节 -->
-              <div >
+              <div style="text-align: left;">
                 <a style="font-weight:normal;width: 60px;line-height: 32px"> {{ item.ttaskMode }} </a>
                 <el-button type="primary" style="float: right" @click="handleEdit(item)">任务详情</el-button>
               </div>
@@ -100,10 +101,11 @@
             v-model:currentPage="currentPage2"
             v-model:page-size="pageSize2"
             :page-sizes="[3, 6, 9]"
-            layout="total, sizes, prev, pager, next, jumper"
+            layout="total, prev, pager, next, jumper"
             :total="total2"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
+            style="position: absolute;left: 50%;transform: translate(-50%)"
         >
         </el-pagination>
       </div>
@@ -123,7 +125,7 @@
                 </div>
               </template>
               <!-- 展示任务细节 -->
-              <div >
+              <div style="text-align: left;">
                 <a style="font-weight:normal;width: 60px;line-height: 32px"> {{ item.ttaskMode }} </a>
                 <el-button type="primary" style="float: right" @click="handleEdit(item)">任务详情</el-button>
               </div>
@@ -137,10 +139,11 @@
             v-model:currentPage="currentPage3"
             v-model:page-size="pageSize3"
             :page-sizes="[3, 6, 9]"
-            layout="total, sizes, prev, pager, next, jumper"
+            layout="total, prev, pager, next, jumper"
             :total="total3"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
+            style="position: absolute;left: 50%;transform: translate(-50%)"
         >
         </el-pagination>
       </div>
@@ -148,29 +151,29 @@
 
     <!-- 弹窗 功能:新增/修改任务 -->
     <el-dialog v-model="isShowAdd" title="任务" width="400px">
-      <el-form :model="form" label-width="100px">
+      <el-form :model="form" label-width="100px" :rules="addTaskRules">
         <!-- 填写任务名 -->
-        <el-form-item label="名称" label-width="40px">
-          <el-input v-model="form.tname" style="width: 70%;margin-left: 30px"></el-input>
+        <el-form-item label="名称" label-width="60px" prop="tname">
+          <el-input v-model="form.tname" style="width: 70%;"></el-input>
         </el-form-item>
         <!-- 填写任务描述 -->
-        <el-form-item label="描述" label-width="40px">
-          <el-input autosize type="textarea" v-model="form.tdescribe" style="width: 70%;margin-left: 30px"></el-input>
+        <el-form-item label="描述" label-width="40px" style="padding-left: 20px">
+          <el-input autosize type="textarea" v-model="form.tdescribe" style="width: 70%;"></el-input>
         </el-form-item>
         <!-- 选择任务类型 -->
-        <el-form-item label="类型" label-width="40px">
-            <el-radio v-model="form.ttaskMode" label="正计时" @click="isShowPositive" style="width: 40px;margin-left: 30px">正计时</el-radio>
+        <el-form-item label="类型" label-width="40px" style="padding-left: 20px">
+            <el-radio v-model="form.ttaskMode" label="正计时" @click="isShowPositive" style="width: 40px;">正计时</el-radio>
             <el-radio v-model="form.ttaskMode" label="定目标" @click="isShowNegative" style="width: 40px">定目标</el-radio>
             <el-radio v-model="form.ttaskMode" label="番茄计时" @click="isShowTomato" style="width: 40px">番茄计时</el-radio>
         </el-form-item>
         <!-- 当点击定目标时显示 -->
-        <div v-show="isNegative">
+        <div v-show="isNegative" style="text-align: left;padding-left: 20px">
           想在<el-date-picker v-model="form.tplanEndDate" type="date" placeholder="日期" style="width: 150px;margin: 0 20px 20px 20px">
           </el-date-picker>之前 <br>
           一共完成 <el-input style="width: 60px;margin: 0 20px 20px 20px" v-model="form.tplanTime"></el-input> 小时
         </div>
         <!-- 当点击番茄计时时显示 -->
-        <div v-show="isTomato">
+        <div v-show="isTomato" style="text-align: left;padding-left: 20px" >
           一次番茄钟:<el-input style="width: 60px;margin: 0 20px 0 20px" v-model="form.ttomatoClock"></el-input>分钟
         </div>
       </el-form>
@@ -183,17 +186,17 @@
     </el-dialog>
 
     <!-- 弹窗 功能:查看/编辑任务 -->
-    <el-dialog v-model="isShowDetail">
+    <el-dialog v-model="isShowDetail" width="60%">
       <!-- 任务细节展示 -->
       <el-descriptions title="任务详情" border :column="2">
-        <el-descriptions-item label="任务名"> {{ form.tname }}</el-descriptions-item>
-        <el-descriptions-item label="所属用户"> {{ currentUserName }} </el-descriptions-item>
+        <el-descriptions-item label="任务名" :span="2"> {{ form.tname }}</el-descriptions-item>
+<!--        <el-descriptions-item label="所属用户"> {{ currentUserName }} </el-descriptions-item>-->
         <el-descriptions-item label="计时方法">
           <el-tag >{{ form.ttaskMode }}</el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="创建时间"> {{form.tcreateDate}} </el-descriptions-item>
-        <el-descriptions-item label="累计专注次数"> {{ form.tfocusedNum }} </el-descriptions-item>
-        <el-descriptions-item label="累计专注时长(单位:分钟)"> {{ form.tfocusedTime }} </el-descriptions-item>
+        <el-descriptions-item label="专注次数">共 {{ form.tfocusedNum }} 次</el-descriptions-item>
+        <el-descriptions-item label="专注时长">共 {{ form.tfocusedTime }} 分钟</el-descriptions-item>
         <el-descriptions-item label="任务描述" :span="2"> {{ form.tdescribe }} </el-descriptions-item>
       </el-descriptions>
       <!-- 功能按键 -->
@@ -224,7 +227,7 @@
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :show-close="false"
-        width="40%"
+        width="60%"
     >
       <div style="text-align: center">
         <!-- 显示名言 -->
@@ -276,8 +279,10 @@
       </div>
     </el-dialog>
 
-    <el-dialog v-model="isShowTaskDetail" width="30%">
-      <div style="height: 430px;overflow-y: auto">
+    <!-- 任务细节 -->
+    <el-dialog v-model="isShowTaskDetail" width="50%">
+      <el-scrollbar height="430px">
+<!--      <div style="height: 430px;overflow-y: auto">-->
         <div style="text-align: center;font-size: 20px;text-align: left">{{ form.tname }}</div>
         <div v-for="item in taskDetail" style="position: relative; margin-top: 20px;">
           <el-descriptions :column="2" border>
@@ -286,7 +291,8 @@
             <el-descriptions-item label="持续时间">{{ item.flastedTime }} min</el-descriptions-item>
           </el-descriptions>
         </div>
-      </div>
+      </el-scrollbar>
+<!--      </div>-->
     </el-dialog>
   </div>
 </template>
@@ -368,7 +374,12 @@ export default {
       focusForm: { }, // 新增专注记录时使用的对象
       // 下面是展示某个任务细节的变量
       isShowTaskDetail: false,
-      taskDetail: { }
+      taskDetail: { },
+      addTaskRules: {
+        tname: [
+          { required: true, message: '请输入任务名', trigger: 'blur' }
+        ]
+      }
     }
   },
   // computed: {
@@ -387,14 +398,25 @@ export default {
   // },
   created() {
     this.showAllTask(); // 刚开始显示未被完成或删除的任务
-
-    // 读取session中的用户信息并将 用户id 赋予currentUserID
-    this.currentUserInfo = JSON.parse(window.sessionStorage.getItem('userinfo'));
-    this.currentUserID = this.currentUserInfo.uid;
-    this.currentUserName = this.currentUserInfo.uname;
-    console.log('当前的用户id是'+this.currentUserID)
+    this.getUserINfo();
   },
   methods: {
+    // 从后端获取用户信息
+    getUserINfo() {
+      // 读取session中的用户信息并将 用户id 赋予currentUserID
+      this.currentUserID = JSON.parse(window.sessionStorage.getItem('userinfo')).uid;
+      if (this.currentUserID !== 0) {
+        request.get("/userinfo",{
+          params: {
+            userId: this.currentUserID
+          }
+        }).then(res => {
+          this.currentUserInfo = res.data.records[0]
+          console.log(this.currentUserInfo)
+        })
+      }
+      this.currentUserName = this.currentUserInfo.uname;
+    },
     // 主要是为了当右上角三个按钮中某个按钮被选中时,点击重置按钮,可以正确地重置
     selectLoad() {
       if (this.radioSelect === '1') {
@@ -495,6 +517,15 @@ export default {
         this.form.tuserId = this.currentUserID;
         this.form.tisDeleted = 0;
         this.form.tisPigeonholed = 0;
+        this.form.tfocusedNum = 0;
+        this.form.tfocusedTime = 0;
+        if (this.form.ttaskMode === "番茄计时" && !this.form.hasOwnProperty("ttomatoClock")) {
+          this.form.ttomatoClock = 30; // 如果没有写就默认30
+          console.log('使用默认');
+        } else {
+          console.log('hhh');
+        }
+        console.log(this.form)
         request.post("/taskinfo", this.form).then(res => {
           // console.log(res)
           if (res.code === '0') {
@@ -572,7 +603,8 @@ export default {
     // 显示任务详情
     handleEdit(item) {
       this.form = JSON.parse(JSON.stringify(item)) //深拷贝,使得此时form对象与表格里的数据隔离开
-      this.isShowDetail = true
+      this.isShowDetail = true;
+      console.log(this.form);
     },
     // 修改任务 显示任务信息
     editTask(form) {
@@ -780,13 +812,13 @@ export default {
       this.getTaskDetail()
     },
     getTaskDetail() {
-      request.get("/focusinfo",{
+      request.get("/allfocusinfo",{
         params: {
           taskId: this.form.tid,
           userId: this.currentUserID
         }
       }).then(res => {
-        this.taskDetail = res.data.records
+        this.taskDetail = res.data
         console.log("getTaskDetail函数\n下面显示从后端获取的任务细节")
         console.log(this.taskDetail)
       })

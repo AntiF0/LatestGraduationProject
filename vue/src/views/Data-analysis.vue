@@ -32,6 +32,7 @@
             type="year"
             placeholder="选择某年"
             value-format="YYYY"
+            @change="drawChartPie"
         />
         <!-- 月选择器 -->
         <el-date-picker
@@ -40,6 +41,7 @@
             type="month"
             placeholder="选择某月"
             value-format="MM"
+            @change="drawChartPie"
         />
         <!-- 日选择器 -->
         <el-date-picker
@@ -48,6 +50,7 @@
             type="date"
             placeholder="选择某天"
             value-format="YYYY-MM-DD"
+            @change="drawChartPie"
         />
       </div>
       <!-- 选择图表类型 -->
@@ -77,6 +80,7 @@ export default {
   data() {
     return {
       userInfo: [ ],
+      currentUserID: 0,
       timeRangeOfChart: 0, // 1表示年,2表示月,3表示日
       isShowYearPicker: false,
       isShowMonthPicker: false,
@@ -96,10 +100,12 @@ export default {
     }
   },
   created() {
-    this.userInfo = JSON.parse(window.sessionStorage.getItem('userinfo'));
-    if (this.userInfo) {
-      this.getFocusInfo()
-    }
+    // this.userInfo = JSON.parse(window.sessionStorage.getItem('userinfo'));
+    this.getUserINfo();
+    // if (this.userInfo) {
+    //   this.getFocusInfo();
+    // }
+    this.getFocusInfo();
   },
   watch: {
     selectYear() {
@@ -168,6 +174,20 @@ export default {
     }
   },
   methods: {
+    getUserINfo() {
+      // 读取session中的用户信息并将 用户id 赋予currentUserID
+      this.currentUserID = JSON.parse(window.sessionStorage.getItem('userinfo')).uid;
+      if (this.currentUserID !== 0) {
+        request.get("/userinfo",{
+          params: {
+            userId: this.currentUserID
+          }
+        }).then(res => {
+          this.userInfo = res.data.records[0]
+          // console.log(this.userInfo)
+        })
+      }
+    },
     // 初始化保存各个图表数据的数组
     initArray() {
       this.focusColumnYear = [ 0,0,0,0,0,0,0,0,0,0,0,0 ]
@@ -178,15 +198,17 @@ export default {
       this.focusPieDay = [ ]
     },
     getFocusInfo() {
-      console.log(this.focusInfo)
-      request.get("/focusinfo",{
+      this.currentUserID = JSON.parse(window.sessionStorage.getItem('userinfo')).uid;
+      request.get("/allfocusinfo",{
         params: {
-          userId: this.userInfo.uid
+          // userId: this.userInfo.uid
+          userId: this.currentUserID
         }
       }).then(res => {
-        this.focusInfo = res.data.records
-        console.log(this.focusInfo)
+        this.focusInfo = res.data
+
       })
+      console.log(this.focusInfo);
     },
     getStringYear(s) {
       return parseInt(s.substr(0,4))
@@ -310,7 +332,7 @@ export default {
           },
           series: [
             {
-              name: 'Access From',
+              name: '专注时间',
               type: 'pie',
               radius: ['40%', '70%'],
               avoidLabelOverlap: false,
@@ -352,7 +374,7 @@ export default {
           },
           series: [
             {
-              name: 'Access From',
+              name: '专注时间',
               type: 'pie',
               radius: ['40%', '70%'],
               avoidLabelOverlap: false,
@@ -394,7 +416,7 @@ export default {
           },
           series: [
             {
-              name: 'Access From',
+              name: '专注时间',
               type: 'pie',
               radius: ['40%', '70%'],
               avoidLabelOverlap: false,

@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 1200px; height: 750px;overflow: hidden">
+  <div style="width: 1020px; height: 750px;overflow: hidden">
     <div style="width: 400px; margin: 150px auto;">
 
       <div style="color: black; font-size: 40px; text-align: center; padding: 30px">欢迎注册</div>
@@ -78,7 +78,10 @@ export default {
         })
         return //返回,不继续执行
       }
-
+      this.form.uhead = "https://s1.ax1x.com/2022/04/16/LtBCTI.jpg";
+      this.form.ufocusedTime = 0;
+      this.form.ufocusedNum = 0;
+      this.form.usuper = 0;
       this.$refs['form'].validate((valid) => {
         if (valid) {
           request.post("/userinfo/register", this.form).then(res => {

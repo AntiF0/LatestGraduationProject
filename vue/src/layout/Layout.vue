@@ -4,12 +4,13 @@
     <!--    头部-->
     <Header />
     <!--    主体-->
-    <div style="display: flex">
-      <!--      侧边栏-->
-      <Aside />
-      <!--      内容区域-->
-      <router-view style="flex: 1"/>
-    </div>
+<!--    <div style="display: flex">-->
+<!--      &lt;!&ndash;      侧边栏&ndash;&gt;-->
+<!--&lt;!&ndash;      <Aside />&ndash;&gt;-->
+<!--      &lt;!&ndash;      内容区域&ndash;&gt;-->
+<!--      <router-view style="flex: 1"/>-->
+<!--    </div>-->
+    <router-view />
   </div>
 </template>
 

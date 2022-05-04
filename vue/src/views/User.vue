@@ -1,14 +1,14 @@
 <template>
-  <div class="setting">
+  <div style="width: 1020px;height: 670px;position: relative;text-align: center">
 
-    <div style="margin: 15px auto 15px auto;">
+    <div style="margin: 15px 20px 15px 20px;">
       <!-- 新增按钮 -->
       <el-button type="primary" @click="add">
         <el-icon><plus /></el-icon>&nbsp;
         新增
       </el-button>
       <!-- 搜索区域 -->
-      <el-input v-model="search" placeholder="请输入关键字" style="width: 20%;margin-left: 10px" clearable/>
+      <el-input v-model="search" placeholder="请输入关键字" style="width: 20%;margin-left: 10px" clearable @input="load"/>
       <el-button type="primary" style="margin-left: 10px" @click="load">
         <el-icon><search /></el-icon>&nbsp;
         查询
@@ -18,12 +18,12 @@
     </div>
 
     <!-- 数据展示区域 -->
-    <div>
-      <el-table :data="tableData" border stripe class="setting-table">
+    <div style="background-color: khaki;position: absolute;left: 50%;transform: translate(-50%)">
+      <el-table :data="tableData" border stripe style="width: 900px;">
         <!-- 数据展示 -->
         <el-table-column prop="uid" label="Id" sortable/>
         <el-table-column prop="uname" label="用户名" />
-        <el-table-column prop="upassword" label="密码" />
+<!--        <el-table-column prop="upassword" label="密码" />-->
         <el-table-column prop="usaying" label="名言" />
         <el-table-column prop="usuper" label="管理员" />
         <!-- 表格功能 -->
@@ -43,7 +43,7 @@
     </div>
 
     <!-- 分页区域 -->
-    <div style="margin: 15px 0">
+    <div style="margin-top: 15px;background-color: aqua;position: relative">
       <el-pagination
           v-model:currentPage="currentPage"
           :page-sizes="[5, 10, 20]"
@@ -51,12 +51,13 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
           @size-change="handleSizeChange"
-          @current-change="handleCurrentChange">
+          @current-change="handleCurrentChange"
+          style="position: absolute;left: 50%;transform: translate(-50%, 560px)">
       </el-pagination>
     </div>
 
     <!-- 弹窗区域 -->
-    <el-dialog v-model="dialogVisible" title="提示" width="30%">
+    <el-dialog v-model="dialogVisible" title="提示" width="50%">
       <el-form :model="form" label-width="120px">
         <el-form-item label="用户名">
           <el-input v-model="form.uname" style="width: 80%"></el-input>
@@ -212,11 +213,5 @@ export default {
 </script>
 
 <style scoped>
-.setting {
-  width: 1020px;
-  height: 670px;
-}
-.setting-table {
-  width: 900px;
-}
+
 </style>

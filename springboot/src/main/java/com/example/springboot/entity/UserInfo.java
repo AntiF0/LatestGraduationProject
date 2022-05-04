@@ -16,4 +16,5 @@ public class UserInfo {
     private Integer uSuper;
     private Integer uFocusedNum;
     private Integer uFocusedTime;
+    private String uHead;
 }

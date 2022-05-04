@@ -2,6 +2,13 @@
   <div>
     <el-menu class="all-menu" router>
 
+<!--      <el-menu-item index="easyUse">-->
+        <el-button type="primary" style="margin: 20px 0 10px 20px" @click="turnToEasyUse">
+          简洁模式
+        </el-button>
+<!--      </el-menu-item>-->
+
+      <div v-show="isShowMore">
       <el-menu-item index="task">
         <el-icon><message-box /></el-icon>
         <template #title>待办事项</template>
@@ -26,6 +33,7 @@
         <el-icon><user /></el-icon>
         <template #title>用户管理</template>
       </el-menu-item>
+      </div>
 
     </el-menu>
   </div>
@@ -48,7 +56,8 @@ export default {
   data() {
     return {
       isSuper: false,
-      userinfo: []
+      userinfo: [],
+      isShowMore: true,
     }
   },
   created() {
@@ -62,6 +71,9 @@ export default {
       {
         this.isSuper = true;
       }
+    },
+    turnToEasyUse() {
+      this.$router.push('easyUse');
     }
   }
 }

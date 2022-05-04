@@ -77,13 +77,18 @@ public class UserInfoController {
     @GetMapping
     public Result<?> findPage(@RequestParam(defaultValue = "1") Integer pageNum,
                               @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "") String search) {
+                              @RequestParam(defaultValue = "") String search,
+                              @RequestParam(defaultValue = "") Integer userId) {
         LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
+//        wrapper.eq(UserInfo::getUId, userId);
         if (StrUtil.isNotBlank(search)) {
             wrapper.like(UserInfo::getUId, search).or().
                     like(UserInfo::getUName, search).or().
                     like(UserInfo::getUPassword, search).or().
                     like(UserInfo::getUSaying, search);
+        }
+        if (userId != null) {
+            wrapper.eq(UserInfo::getUId, userId);
         }
         Page<UserInfo> userInfoPage = userInfoMapper.selectPage(new Page<>(pageNum, pageSize), wrapper);
         return Result.success(userInfoPage);

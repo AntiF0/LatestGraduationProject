@@ -13,22 +13,23 @@
             :shortcuts="shortcuts"
             format="YYYY/MM/DD"
             value-format="YYYY-MM-DD"
-            style="width: 180px;margin-left: 20px"></el-date-picker>
-        <el-button type="primary" @click="confirmDate" style="margin-left: 20px">确定</el-button>
+            style="width: 180px;margin-left: 20px"
+            @change="confirmDate"></el-date-picker>
+<!--        <el-button type="primary" @click="confirmDate" style="margin-left: 20px">确定</el-button>-->
       </div>
       <!-- 记录 -->
-      <div style="margin-top: 20px;margin-bottom: 6px" id="div1"></div>
+      <div style="margin-top: 20px;margin-bottom: 6px;text-align: left" id="div1"></div>
       <!-- 更新或保存按钮 -->
       <el-button type="primary" @click="saveEditor1" style="float: right;margin-top: 20px;width: 90px">更新</el-button>
     </div>
 
     <!-- 当天的图表展示 -->
     <div class="chart">
-      <div class="chart-show" id="main" style="width: 480px; height: 558px"></div>
+      <div class="chart-show" id="main" style="width: 480px; height: 608px"></div>
     </div>
 
     <!-- 弹窗 显示文章表格 -->
-    <el-dialog v-model="isShowTable" width="25%">
+    <el-dialog v-model="isShowTable" width="40%">
       <!-- 功能区域 -->
       <div style="margin-bottom: 20px">
         <!-- 新增 此处如果保留需要重写save函数,删除不影响操作-->
@@ -37,11 +38,16 @@
 <!--          新增-->
 <!--        </el-button>-->
         <!-- 搜索 -->
-        <el-input v-model="search" placeholder="请输入关键字" style="width: 40%;" clearable/>
-        <el-button type="primary" style="margin-left: 10px" @click="load">
-          <el-icon><search /></el-icon>&nbsp;
-          查询
-        </el-button>
+        <el-input v-model="search" placeholder="请输入关键字" style="width: 100%;" clearable @input="load">
+          <!--搜索icon 3行-->
+          <template #prefix>
+            <el-icon style="margin-top: 8px"><search /></el-icon>
+          </template>
+        </el-input>
+<!--        <el-button type="primary" style="margin-left: 10px" @click="load">-->
+<!--          <el-icon><search /></el-icon>&nbsp;-->
+<!--          查询-->
+<!--        </el-button>-->
       </div>
       <!-- 表格 -->
       <div>
@@ -64,7 +70,7 @@
         </el-table>
       </div>
       <!-- 分页区域 -->
-      <div style="margin: 15px 0">
+      <div>
         <el-pagination
             v-model:currentPage="currentPage"
             :page-sizes="[5, 10, 20]"
@@ -84,16 +90,16 @@
     </el-dialog>
 
     <!-- 弹窗 显示文章细节 -->
-    <el-dialog v-model="isShowContent" title="记录" width="50%" :before-close="handleClose">
+    <el-dialog v-model="isShowContent" width="80%" :before-close="handleClose">
       <el-form :model="form" label-width="120px">
         <div id="div2"></div>
       </el-form>
-      <template #footer>
-        <span class="dialog-footer">
+<!--      <template #footer>-->
+        <div style="text-align: right;margin-top: 10px">
           <el-button @click="isShowContent = false">取消</el-button>
           <el-button type="primary" @click="saveEditor2">确定</el-button>
-        </span>
-      </template>
+        </div>
+<!--      </template>-->
     </el-dialog>
   </div>
 </template>
@@ -209,7 +215,7 @@ export default {
       }).then(res => {
         this.tableData = res.data.records
         this.total = res.data.total
-        // console.log(this.tableData)
+        console.log(this.tableData)
       })
     },
     // 保存在editor1里的文章
@@ -432,13 +438,13 @@ export default {
     getFocusData() {
       if (this.selectDate) {
         console.log("getFocusData函数\n当前时间是:"+this.selectDate)
-        request.get("/focusinfo",{
+        request.get("/allfocusinfo",{
           params: {
             date: this.selectDate,
             userId: this.currentUserID
           }
         }).then(res => {
-          this.chartData = res.data.records
+          this.chartData = res.data
           console.log("getFocusData函数\n下面显示从后端获取的chartData")
           console.log(this.chartData)
         })
@@ -528,6 +534,7 @@ export default {
   height: 630px;
   width: 480px;
   margin: 20px 10px 20px 20px;
+  text-align: center;
   /*background-color: cadetblue;*/
 }
 /*左侧记录框*/
@@ -545,7 +552,7 @@ export default {
 }
 /*右侧图表显示框*/
 .chart-show {
-  margin-top: 54px;
+  margin-top: 4px;
   background-color: white;
   box-shadow: 5px 5px 2px rgb(234,235,235);
 }

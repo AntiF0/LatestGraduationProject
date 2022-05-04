@@ -31,6 +31,16 @@ const routes = [
         path: 'setting',
         name: 'Setting',
         component: () => import("@/views/Setting")
+      },
+      {
+        path: 'easyUse',
+        name: 'EasyUse',
+        component: () => import("@/views/EasyUse")
+      },
+      {
+        path: 'taskInfo',
+        name: 'TaskInfo',
+        component: () => import("@/views/TaskInfo")
       }
     ]
   },
